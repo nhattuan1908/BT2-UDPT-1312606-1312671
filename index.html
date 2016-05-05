@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title> Liên hệ </title>
+        <link href="./Image/Icon/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+        <link rel="stylesheet" type="text/css" href="./CSS/source.css">
+<style>
+  img
+  {
+    margin: 20px 20px 20px 20px;
+  }
+
+  body
+  {
+    background: url(./Image/body-bg.png);
+  }
+
+    .border2
+    {
+        background-color: #FFA500;
+        color: white;
+        margin-right: 75%;
+        border-bottom: 2px solid #00CDE1;
+        border-bottom-width: 100%;
+    }
+
+    .flex-box
+    {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-align-items: center;
+        align-items: center;
+    }  
+
+    .home
+    {
+        float: right;
+        margin-top: 10px;
+        margin-right: 40px;
+        color: #9C9C9C;
+        font-size: 25px;
+    }
+
+    .left
+    {
+        text-align: left;
+        padding: 8px;
+        padding-left: 20px;
+    }
+
+    .right
+    {
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+    }
+
+    #container
+    {
+        width:700px;
+        margin:0 auto;
+    }
+
+    #chatWindow
+    {
+        height: 300px;
+    }
+
+    #mainWrapper
+    {
+        display:none;
+    }
+
+    #chatWrapper
+    {
+        float:left;
+        border:1px #ccc solid;
+        border-radius: 10px;
+        background: #f4f4f4;
+        padding: 10px;
+    }
+
+    #userWrapper
+    {
+        float: left;
+        border:1px #ccc solid;
+        border-radius: 10px;
+        background: #f4f4f4;
+        padding: 10px;
+        margin-left:20px;
+        width:150px;
+        max-height:200px;
+    }
+
+    #namesWrapper
+    {
+        float: left;
+        border:1px #ccc solid;
+        border-radius: 10px;
+        background: #f4f4f4;
+        padding:10px;
+        margin-left:20px;
+    }
+
+    input
+    {
+        height:30px;
+    }
+
+        </style>
+    </head>
+
+    <body>
+
+    <div class = "flex-box"> <img src = "./Image/logo-khtn.png" width="200px" height="157px"> <h1> ỨNG DỤNG PHÂN TÁN </h1> </div> </div>
+    <hr class = "LINE2"/>
+    <div class = "left"> <div> <p class = "border2"> <b> THÔNG TIN LIÊN HỆ </b> </p> <hr class = "LINE" style= "width: 100%;"/> </div>  
+    <div style = "margin-left: 20px;">
+    <div> Nếu có bất kỳ thắc mắc cần giải đáp về trang web của nhóm: <br/> Quý vị có thể gửi liên hệ trực tiếp tại đây:
+    <address>
+        <a href = "mailto: Khanhtoan16@gmail.com?Subject=LIÊN%20HỆ%20ĐẾN%20NHÓM%20THIẾT%20KẾ%20TRANG%20WEB%20KHÁNH%20TOÀN-%20NHẬT%20TUẤN"> Gửi liên hệ </a>
+    </address> </div> </div>
+    </div>
+
+    <div id = "container" style = "cursor: pointer" class = "right">
+        <div id = "namesWrapper">
+            <h2> Chat Online </h2>
+            <p> Username: </p>
+            <div id = "error"> </div>
+            <form id = "usernameForm">
+                <input size = "35" placeholder = "Nhập username..." id = "username"/>
+                <input type = "submit" class = "btn" value = "Nhập tên"/>
+            </form>
+        </div>
+
+        <div id="mainWrapper">
+            <h2> Chat Online </h2>
+            <div id = "chatWrapper">
+            <div id = "chatWindow"> </div>
+            <form id = "messageForm">
+                <input size = "35" id = "message" placeholder = "Gửi tin nhắn..."/>
+                <input type="submit" class = "btn" value = "Gửi tin nhắn!"/>
+            </form>
+            </div>
+
+            <div id="userWrapper">
+            <div id="users"> </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="http://code.jquery.com/jquery-latest.min.js"> </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        $(function(){
+            var socket = io.connect();
+            var $messageForm = $('#messageForm');
+            var $message = $('#message');
+            var $chat = $('#chatWindow');
+            var $usernameForm = $('#usernameForm');
+            var $users = $('#users')
+            var $username = $('#username');
+            var $error = $('#error');
+
+            $usernameForm.submit(function(e){
+            e.preventDefault();
+            socket.emit('new user', $username.val(), function(data){
+            if(data)
+            {
+                $('#namesWrapper').hide();
+                $('#mainWrapper').show();
+                } else 
+                {
+                    $error.html('Username is already taken');
+                }
+            });
+                $username.val('');
+            });
+
+            socket.on('usernames', function(data){
+                var html = '';
+                for(i = 0; i < data.length; i++){
+                        html += data[i] + '<br/>';
+                    }
+                    $users.html(html);
+                })
+
+                $messageForm.submit(function(e){
+                    e.preventDefault();
+                    socket.emit('send message', $message.val());
+                    $message.val('');
+                });
+
+                socket.on('new message', function(data){
+                    $chat.append('<strong>'+ data.user + '</strong>: '+data.msg+'<br/>');
+                });
+            })
+        </script>
+    </body>
+</html>

@@ -1,0 +1,90 @@
+body
+{
+	font-family: verdana;
+}
+
+a:link {color: blue;}
+a:visited {color: #8B7D6B;}
+a:hover {color: green;}
+a:active {color: red;}
+a{text-decoration: none;}
+
+.LINE
+{
+	text-align: center;
+  width: 80%;
+  text-decoration: none;
+  color: #00CDE1;
+}
+
+.LINE2
+{
+  text-decoration: none;
+  color: #DDC488;
+  width: 100%;
+}
+
+
+input[type="text"]
+{
+  	height: 25px;
+    padding: 2px 5px;
+    margin-left: 5px;
+    outline: none;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+fieldset
+{
+  	width: 70%;
+  	margin: 1em 1em 1em 1em;
+  	background-color: white;
+    margin-left: 40px;
+}
+
+textarea
+{
+	padding: 2px 5px;
+	margin-left: 5px;	
+	outline: none;
+}
+
+.bgcmt
+{
+  background: url(../Image/body-bg.png);
+}
+
+.radius-txt
+{
+  border: 1px solid #CDC9C9;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.auto-hint
+{
+  color: #AAAAAA;
+}
+
+.btn
+{
+  margin-left: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #00688B;
+  color: white;
+  height: 38px;
+  min-width: 100px;
+}
+
+.bordercmt
+{
+  border: 2px solid #DDC488;
+  display: block;
+  text-align: center;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
